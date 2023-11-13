@@ -1,0 +1,281 @@
+{
+  "active": false,
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML Extract": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-12T07:35:30.367Z",
+  "id": "4",
+  "meta": null,
+  "name": "Iper",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e2a53bf7-c9c4-4d50-b6ad-eeb1a56cfae1",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        260,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "extractionValues": {
+          "values": [
+            {
+              "key": "prezzo",
+              "cssSelector": ".final-price",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "HTML Extract",
+      "type": "n8n-nodes-base.htmlExtract",
+      "typeVersion": 1,
+      "position": [
+        680,
+        740
+      ],
+      "id": "e30bb8a9-8366-4aba-9bf6-8af94985e96c"
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex"
+      },
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        540
+      ],
+      "id": "6a78c36a-a498-458b-b6ec-cb36728b1d17"
+    },
+    {
+      "parameters": {
+        "functionCode": "\nfor (item of items) {\n  if(item.json.prezzo[0])\n    item.json.prezzo = parseFloat(item.json.prezzo[0].substr(2).replace(',','.'));\n  else\n    item.json.prezzo = 0;\n}\n\nreturn items;"
+      },
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        900,
+        740
+      ],
+      "id": "f98d09b2-f384-4d81-a029-9b5907dd29be"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 23,
+              "minute": 40
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        540,
+        440
+      ],
+      "id": "5226a00c-85e1-46ad-b540-a69b361b0f23"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id AS prodottomarket,url FROM `c_prodotto_market` where market=2;"
+      },
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [
+        740,
+        520
+      ],
+      "id": "bbed951a-0260-4bcf-8e85-6e69ffb526c8",
+      "credentials": {
+        "mySql": {
+          "id": "3",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": "c_prezzo",
+        "columns": "prodottomarket,prezzo",
+        "options": {}
+      },
+      "name": "MySQL2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        540
+      ],
+      "id": "7bba5967-e343-4ff0-b0b7-46332e1de9b4",
+      "credentials": {
+        "mySql": {
+          "id": "3",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "= {{$json[\"url\"]}}",
+        "allowUnauthorizedCerts": true,
+        "responseFormat": "string",
+        "options": {}
+      },
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        480,
+        740
+      ],
+      "id": "7400e39c-d547-4c42-ab06-404ec9bf1a0f"
+    },
+    {
+      "parameters": {
+        "chatId": "-1001478235575",
+        "text": "Iper Scraped!",
+        "additionalFields": {}
+      },
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        740
+      ],
+      "id": "9ce8bc64-343f-467d-bc2a-ef4c16387a5e",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Iper\n"
+      },
+      "id": "df2624f1-1f8b-4db8-82b9-418e0ee8e37c",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        260,
+        320
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2023-11-13T14:28:48.000Z",
+  "versionId": "404ad878-d5a8-4c55-9e14-50f7c7b46df6"
+}
