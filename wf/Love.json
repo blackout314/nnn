@@ -1,0 +1,148 @@
+{
+  "active": false,
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-12T07:57:45.257Z",
+  "id": "6",
+  "meta": null,
+  "name": "Love",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "c39d040c-2e15-456a-a5ca-b71b2e01a1d0",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        320,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://www.bestticino.ch/escort-chiasso/girl",
+        "allowUnauthorizedCerts": true,
+        "responseFormat": "string",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Cookie",
+              "value": "PHPSESSID=b4f9u4tqs3rg790jlj8s1du08l; hasLegalAge=yes; LatestViewed=1443"
+            }
+          ]
+        }
+      },
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        640,
+        440
+      ],
+      "id": "bf51fba5-7b65-4d24-b9f2-f7e655c4abc0"
+    },
+    {
+      "parameters": {
+        "extractionValues": {
+          "values": [
+            {
+              "key": "name",
+              "cssSelector": ".name",
+              "returnArray": true
+            },
+            {
+              "key": "img",
+              "cssSelector": ".img-first",
+              "returnValue": "attribute",
+              "attribute": "style",
+              "returnArray": true
+            },
+            {
+              "key": "city",
+              "cssSelector": ".bt-breadcrumb li:last-of-type"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "HTML Extract",
+      "type": "n8n-nodes-base.htmlExtract",
+      "typeVersion": 1,
+      "position": [
+        880,
+        440
+      ],
+      "id": "7fc98d3c-329e-4976-b492-57cab677b7d0"
+    },
+    {
+      "parameters": {
+        "url": "https://www.bestticino.ch/escort-lugano/girl",
+        "allowUnauthorizedCerts": true,
+        "responseFormat": "string",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Cookie",
+              "value": "PHPSESSID=b4f9u4tqs3rg790jlj8s1du08l; hasLegalAge=yes; LatestViewed=1443"
+            }
+          ]
+        }
+      },
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        640,
+        580
+      ],
+      "id": "a55f32bf-1f97-45cf-9857-bebc574e9734"
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-07-12T07:57:45.257Z",
+  "versionId": "a0ce3342-6b95-4381-9a0a-06578626e7be"
+}
