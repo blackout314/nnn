@@ -1,0 +1,380 @@
+{
+  "active": false,
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Function1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-12T07:40:13.663Z",
+  "id": "5",
+  "meta": null,
+  "name": "Iperal",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "493279d6-6481-4a03-a5bb-e5a9f4113694",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        740,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex"
+      },
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        680
+      ],
+      "id": "1453b2ae-e00c-426e-ae40-43c15e56af99"
+    },
+    {
+      "parameters": {
+        "functionCode": "\nif(items && items.length > 0 && !items[0].json.error) {\n\n  for (item of items) {\n    var data = item.json.data;\n\n    if(data.price)\n      item.json.prezzo = data.price;\n    else\n      item.json.prezzo = 0;\n  }\n\n  return items;\n\n}\nelse {\n  return [{\"json\":{ \"prezzo\":0}}];\n}\n"
+      },
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        880
+      ],
+      "id": "fcffc478-ad78-450a-bc15-3cf3c725ca34"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 23,
+              "minute": 40
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        920,
+        560
+      ],
+      "id": "e77f92ba-9686-4877-bb68-dd2382594ae9"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "=SELECT id AS prodottomarket,url FROM `c_prodotto_market` where market=4 limit {{$node[\"Set\"].json[\"start\"]}},1"
+      },
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        660
+      ],
+      "id": "8b4f4e87-c441-444a-a981-58f1ff867499",
+      "credentials": {
+        "mySql": {
+          "id": "3",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": "c_prezzo",
+        "columns": "prodottomarket,prezzo",
+        "options": {}
+      },
+      "name": "MySQL2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [
+        1860,
+        680
+      ],
+      "id": "95439b9e-33b7-46c8-a588-bbf5d8de1d55",
+      "credentials": {
+        "mySql": {
+          "id": "3",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "= {{$json[\"url\"]}}",
+        "allowUnauthorizedCerts": true,
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Cookie",
+              "value": "JSESSIONID=500A0A57EA2250088E2A563D093C581D"
+            }
+          ]
+        }
+      },
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        880
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "id": "fb8ebf6f-a75c-4e86-a976-f0980c3c1161",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "start",
+              "value": "={{$runIndex*1 + 0}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        660
+      ],
+      "notesInFlow": false,
+      "alwaysOutputData": true,
+      "id": "512b3f19-57de-4a77-befa-c5e6a418e3b8"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$node[\"Set\"].json[\"start\"]}}",
+              "value2": 30
+            }
+          ]
+        }
+      },
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        400
+      ],
+      "id": "227d91ab-74c6-42a4-bbc3-43685c9b9491"
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2040,
+        680
+      ],
+      "webhookId": "78536791-6598-4af6-b833-0c6146ffe6bf",
+      "id": "bf773522-521e-41e1-8dfd-e46d2516482e"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Code here will run only once, no matter how many input items there are.\n// More info and help: https://docs.n8n.io/nodes/n8n-nodes-base.function\n// Tip: You can use luxon for dates and $jmespath for querying JSON structures\n\n// Loop over inputs and add a new field called 'myNewField' to the JSON of each one\nfor (item of items) {\n  var urla = item.json.url.split('/')[4];\n  item.json.url = \"https://www.iperalspesaonline.it/ebsn/api/products?slug=\" + urla;\n}\n\n\nreturn items;"
+      },
+      "name": "Function1",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        960,
+        880
+      ],
+      "id": "c0778dd2-8543-463b-ba06-26a18e3fabe6"
+    },
+    {
+      "parameters": {
+        "chatId": "-1001478235575",
+        "text": "Iperal Scraped!",
+        "additionalFields": {}
+      },
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        700
+      ],
+      "id": "f5324f60-a8b6-4853-8646-370deb40f63c",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Iperal #\n`1 oggetto` ogni `10 secondi`"
+      },
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        920,
+        360
+      ],
+      "id": "1d8f3f8a-8b73-476e-b7dc-de627f413655"
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-07-13T11:19:54.641Z",
+  "versionId": "5dcac946-3a8f-4579-b419-6da95af87b79"
+}
