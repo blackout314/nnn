@@ -1,0 +1,204 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "SeaTable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2022-10-28T06:37:43.138Z",
+  "id": "1",
+  "meta": null,
+  "name": "Remote Jobs",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "6b48700e-9663-4bc2-bd0d-cb1355ada774",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        80,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://blackout.altervista.org/rssb/rss-bridge-master/?action=display&bridge=Telegram&username=%40remotejobss&format=Json",
+        "options": {}
+      },
+      "id": "19420864-6b7c-45f9-95ba-07b7ad824302",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        420,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let bannedWord = ['Java','United States', 'Android','temporary','part_time','C#','contractor'];\nlet finalItems = [];\nlet rssItems = $input.all()[0].json.items;\nconst timeElapsed = Date.now();\nconst today = new Date(timeElapsed);\n\nrssItems.forEach(function(item,i){\n  let flag = false;\n  \n  bannedWord.forEach(function(word,i){\n    if(item.content_html.indexOf(word)!=-1) {\n      flag = true;\n    }\n  })\n  \n  if(flag == false) {\n    finalItems.push({\n      title:item.title,\n      url: item.url,\n      insert: today.toISOString()\n    });\n  }\n})\n\nreturn finalItems;"
+      },
+      "id": "0f6444ad-cb89-439c-96b9-4209f93dec69",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        620,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://blackout.altervista.org/rssb/rss-bridge-master/?action=display&bridge=Telegram&username=%40remotejobshg&format=Json",
+        "options": {}
+      },
+      "id": "aad7fdb7-5dfb-444d-b9ac-ba8c82a091d0",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        420,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### Remote Job from Telegram",
+        "height": 80,
+        "width": 239
+      },
+      "id": "e7c5332c-32d7-4e01-afad-bd02fdbcacff",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "tableName": "Jobs",
+        "columnsUi": {
+          "columnValues": [
+            {
+              "columnName": "title",
+              "columnValue": "={{ $json[\"title\"] }}"
+            },
+            {
+              "columnName": "url",
+              "columnValue": "={{ $json[\"url\"] }}"
+            },
+            {
+              "columnName": "insert",
+              "columnValue": "={{ $json[\"insert\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "5c4af358-ec01-4a25-a1e0-17507d355760",
+      "name": "SeaTable",
+      "type": "n8n-nodes-base.seaTable",
+      "typeVersion": 1,
+      "position": [
+        840,
+        240
+      ],
+      "credentials": {
+        "seaTableApi": {
+          "id": "2",
+          "name": "SeaTable Cloud"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 8
+            }
+          ]
+        }
+      },
+      "id": "d517a0d6-4317-4c2b-ac54-7bffcd97ceee",
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        80,
+        320
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-01-05T11:04:26.633Z",
+  "versionId": "2e84fb48-f1d6-477c-9ff0-879df95fc803"
+}
