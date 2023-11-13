@@ -1,0 +1,393 @@
+{
+  "active": false,
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML Extract": {
+      "main": [
+        [
+          {
+            "node": "Function",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-11T17:15:57.759Z",
+  "id": "3",
+  "meta": null,
+  "name": "Conad",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "5c6f2ccd-bcbe-49b9-a792-0aef1e0d427c",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        -740,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "extractionValues": {
+          "values": [
+            {
+              "key": "prezzo",
+              "cssSelector": ".product-price",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "HTML Extract",
+      "type": "n8n-nodes-base.htmlExtract",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        920
+      ],
+      "id": "19931136-a534-49b3-9fb4-5d05aa01852f",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex"
+      },
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        60,
+        720
+      ],
+      "id": "13afc6c2-a653-40cc-82d8-6363d497410c"
+    },
+    {
+      "parameters": {
+        "functionCode": "\nif(items && items.length > 0 && !items[0].json.error) {\n  \n  for (item of items) {\n    if(item.json.prezzo[0])\n      item.json.prezzo = parseFloat(item.json.prezzo[0].substr().replace(',','.'));\n    else\n      item.json.prezzo = 0;\n  }\n\n  return items;\n}\nelse {\n  return [{\"json\":{ \"prezzo\":0}}];\n}\n"
+      },
+      "name": "Function",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        920
+      ],
+      "id": "babfb105-2242-4bd0-a94c-de51716c50bf"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "hour": 23,
+              "minute": 40
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        600
+      ],
+      "id": "08522f08-33e9-4c6a-80dd-baa893fad869"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "=SELECT id AS prodottomarket,url FROM `c_prodotto_market` where market=3 ORDER by id DESC limit {{$node[\"Set\"].json[\"start\"]}},1"
+      },
+      "name": "MySQL",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        700
+      ],
+      "id": "6d6821e8-e88c-4957-bf5c-75cc45be0be1",
+      "credentials": {
+        "mySql": {
+          "id": "3",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": "c_prezzo",
+        "columns": "prodottomarket,prezzo",
+        "options": {}
+      },
+      "name": "MySQL2",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [
+        220,
+        720
+      ],
+      "id": "6eae4f79-ccbd-49d4-a20d-4dd7e31c8e72",
+      "credentials": {
+        "mySql": {
+          "id": "3",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "= {{$json[\"url\"]}}",
+        "allowUnauthorizedCerts": true,
+        "responseFormat": "string",
+        "options": {},
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Cookie",
+              "value": "ecSess=d3caa5f1-4300-4243-b114-16484bef3277; adobeujs-optin=%7B%22aam%22%3Atrue%2C%22adcloud%22%3Atrue%2C%22aa%22%3Atrue%2C%22campaign%22%3Atrue%2C%22ecid%22%3Atrue%2C%22livefyre%22%3Afalse%2C%22target%22%3Atrue%2C%22mediaaa%22%3Atrue%7D; AMCV_D3A6DFCB5937B7F90A495CEB%40AdobeOrg=179643557%7CMCMID%7C30468547208904801276336207561147027202%7CMCAID%7CNONE%7CMCOPTOUT-1689102883s%7CNONE%7CvVersion%7C5.5.0%7CMCIDTS%7C19550; mbox=session#5f9bcad4fddb4a77a1da1063971d8447#1689097545|PC#5f9bcad4fddb4a77a1da1063971d844…dWIiOiJlY0FjY2VzcyIsInRpbWVzdGFtcCI6MTY4OTA5NTY2OTE4OCwidHlwZU9mU2VydmljZSI6Ik9SREVSX0FORF9DT0xMRUNUIiwicG9pbnRPZlNlcnZpY2VJZCI6IjAwNTI5NCIsImNhcnRJZCI6ImMtcy1DLTIzLTAyODIzMjc3IiwiYW5vbnltb3VzQ2FydElkIjoiNWFlN2RlZDItYzE2NC00MjE4LWI4NGQtNGZjYWUzZTM3Zjc0IiwiY2FydENyZWF0aW9uVGltZSI6MTY4OTA5NTY2OTAyOSwidGltZXNsb3RFeHBpcmF0aW9uIjowLCJuU3RvcmVzRm91bmQiOjE0LCJtaXNzaW5nQ2FydENvdW50ZXIiOjAsImNsQ291bnRyeSI6IkNIIiwiaXNzIjoiY29uYWQiLCJpYXQiOjE2ODkwOTU2NzB9.mFX3lrah3Wd0gzi9CiZgoTnX3BfQaiFT4rJJFy4uxdQ; ecCooperative=ccn"
+            }
+          ]
+        }
+      },
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        -500,
+        920
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5,
+      "id": "f1dc4a70-32d8-4628-b22c-596bb870feec",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "values": {
+          "number": [
+            {
+              "name": "start",
+              "value": "={{$runIndex*1 + 0}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        700
+      ],
+      "notesInFlow": false,
+      "alwaysOutputData": true,
+      "id": "aa157223-a7ea-4ec9-9afc-15158a18b2cf"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$node[\"Set\"].json[\"start\"]}}",
+              "value2": 59
+            }
+          ]
+        }
+      },
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        440,
+        440
+      ],
+      "id": "78994f55-a2fb-45f6-badd-d343411a5871"
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        400,
+        720
+      ],
+      "webhookId": "af2cd01b-3ef9-4eee-9b1e-20f50b0093b0",
+      "id": "5c77d96f-e418-4926-9fdf-8708ca22a2df"
+    },
+    {
+      "parameters": {
+        "content": "# Conad #\nscrape `1 oggetti` ogni `10 secondi`",
+        "height": 120
+      },
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        460
+      ],
+      "id": "c61e59c6-4fa1-4800-b3de-2ab723edc860"
+    },
+    {
+      "parameters": {
+        "chatId": "-1001478235575",
+        "text": "Conad Scraped!",
+        "additionalFields": {}
+      },
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        580,
+        640
+      ],
+      "id": "1f798e5a-172b-48ed-88d6-0a23eefdb359",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2023-07-24T09:36:13.888Z",
+  "versionId": "4cf1e432-f246-4fcf-8d92-e2ccdb0bdd91"
+}
