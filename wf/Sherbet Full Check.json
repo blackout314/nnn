@@ -1,0 +1,206 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML Extract": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2023-07-13T12:02:20.422Z",
+  "id": "7",
+  "meta": null,
+  "name": "Sherbet Full Check",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ac1c7de7-a81f-4e54-a44f-189301d95f8b",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://docs.google.com/spreadsheets/d/1dfPesoyuLmW9F3JPz8a5IQMP9sUOMJeMJdAHcjuLtqg",
+        "options": {}
+      },
+      "id": "b32ea247-f5d5-461d-bb93-1eb617d3a662",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        400,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "extractionValues": {
+          "values": [
+            {
+              "key": "tab",
+              "cssSelector": "td",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "55881913-047c-4434-a922-18953254e329",
+      "name": "HTML Extract",
+      "type": "n8n-nodes-base.htmlExtract",
+      "typeVersion": 1,
+      "position": [
+        620,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "Full1",
+              "value": "={{ $json[\"tab\"][307] }}"
+            },
+            {
+              "name": "Full2",
+              "value": "={{ $json[\"tab\"][330] }}"
+            },
+            {
+              "name": "Full3",
+              "value": "={{ $json[\"tab\"][353] }}"
+            },
+            {
+              "name": "Full4",
+              "value": "={{ $json[\"tab\"][376] }}"
+            },
+            {
+              "name": "Full5",
+              "value": "={{ $json[\"tab\"][399] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "64ef0129-e190-40e2-b4b7-71ab2ea79796",
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        840,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "-1001478235575",
+        "text": "=SHERBET {{ $json[\"Full1\"] }} {{ $json[\"Full2\"] }} {{ $json[\"Full3\"] }} {{ $json[\"Full4\"] }} {{ $json[\"Full5\"] }}",
+        "additionalFields": {}
+      },
+      "id": "2b37325c-d22d-4443-8591-549deb832d74",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        200
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyHour",
+              "minute": 23
+            }
+          ]
+        }
+      },
+      "id": "6cc48a99-7fe9-4c4b-802c-d925838f46b7",
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        200,
+        140
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2023-07-13T12:02:25.190Z",
+      "updatedAt": "2023-07-13T12:02:25.190Z",
+      "id": "1",
+      "name": "bitcointalk"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2023-07-13T13:42:28.236Z",
+  "versionId": "49674b6e-26d2-4f5f-b6f6-b838e9ccdef3"
+}
