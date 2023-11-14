@@ -127,15 +127,15 @@
     {
       "parameters": {
         "content": "### Remote Job from Telegram",
-        "height": 80,
-        "width": 239
+        "height": 467,
+        "width": 313
       },
       "id": "e7c5332c-32d7-4e01-afad-bd02fdbcacff",
       "name": "Note",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        80,
+        40,
         40
       ]
     },
@@ -199,6 +199,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2023-01-05T11:04:26.633Z",
-  "versionId": "2e84fb48-f1d6-477c-9ff0-879df95fc803"
+  "updatedAt": "2023-11-14T18:04:09.000Z",
+  "versionId": "63dc0dc0-1799-450e-9937-83b75baae8c0"
 }
