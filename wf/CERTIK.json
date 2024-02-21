@@ -1,0 +1,166 @@
+{
+  "active": true,
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-02-21T14:18:49.908Z",
+  "id": "XAu01iKpGGT5KIUS",
+  "meta": null,
+  "name": "CERTIK",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://skynet.certik.com/leaderboards/security",
+        "options": {}
+      },
+      "id": "e712349d-a583-4a08-821a-ac9aa87bddc8",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        380,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "name",
+              "cssSelector": "div.group.contents div.flex a div div div.truncate",
+              "returnArray": true
+            },
+            {
+              "key": "value",
+              "cssSelector": ".leading-3 ",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8ca5d121-c25f-4b45-b334-3689e0d6626b",
+      "name": "HTML",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1,
+      "position": [
+        560,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nlet final = {}\nfor (const item of $input.all()) {\n  //if(!item.json.myNewField)\n  //  item.json.myNewField = {}\n\n  let count = 0;\n  for(const coin of item.json.name) {\n    if(count%2 == 0) {\n      let v = item.json.value[count/2];\n      item.json[ coin ] = v;\n      final[count/2] = { \"coin\": coin, \"value\": v };\n    }\n    count = count + 1;\n    \n  }\n}\n\nreturn final;\n//return $input.all();"
+      },
+      "id": "c83a39bb-afec-4c23-a5a3-cec143e661b1",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        740,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "-1001478235575",
+        "text": "=```\n{{ Object.keys($json).map(item => {\n\nreturn $json[item].coin +  \" \" +$json[item].value + \"\\n\"\n\n}); }}\n```",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "a6e72d83-c406-4ea2-ba5d-1c5b633e794c",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        320
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 18
+            }
+          ]
+        }
+      },
+      "id": "862e95a7-5b07-48e7-8fd8-416a5bd06a61",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        120,
+        360
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrencyRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-02-21T15:24:27.000Z",
+  "versionId": "57afe95a-c00a-4060-abcc-f8938c5b61b0"
+}
