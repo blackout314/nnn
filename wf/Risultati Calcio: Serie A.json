@@ -1,0 +1,118 @@
+{
+  "active": false,
+  "connections": {
+    "RSS Feed Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-01-15T14:30:30.950Z",
+  "id": "YNYqc6GMI0ajWlSG",
+  "meta": null,
+  "name": "Risultati Calcio: Serie A",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {}
+          ]
+        },
+        "feedUrl": " http://www.soccerstats247.com/DailyMatchFeed.aspx?langId=7 "
+      },
+      "type": "n8n-nodes-base.rssFeedReadTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d7e122f5-4b97-48ab-a93a-dc944e0e83ef",
+      "name": "RSS Feed Trigger"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=da questo testo {{ $json.content }}\nperfavore selezionami i risultati ddelle partite italiane di serie A e stampami un json, ritorna sempre la squadra di casa come home, la squadra fuori casa come away e il risultato come score e metti tutto in un oggetto chiamato items"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        220,
+        0
+      ],
+      "id": "2a500bcf-860d-4a78-88d6-fa856855d3e9",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "Fc4YKepdp9ogrZrV",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "49544016",
+        "text": "={{ $json.message.content.items.map(item => {\n  return item.home +\" \"+ item.away +\", \"+ item.score;\n}).join(\"\\n\") }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        0
+      ],
+      "id": "9a202f1e-fed4-432a-8bae-4b7367272eee",
+      "name": "Telegram",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:RSS Feed Trigger": {
+      "lastItemDate": "2025-01-17T00:00:00.000Z"
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-01-19T15:28:11.000Z",
+  "versionId": "664a442e-5caf-41eb-8d93-504b235496e9"
+}
