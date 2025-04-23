@@ -1,0 +1,119 @@
+{
+  "active": false,
+  "connections": {
+    "RSS Feed Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-01-14T14:07:29.379Z",
+  "id": "zvCYD0WfBI8i4zHD",
+  "meta": null,
+  "name": "AI workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "feedUrl": "https://rss.app/feeds/pR0wFDWPXDKODjvF.xml"
+      },
+      "type": "n8n-nodes-base.rssFeedReadTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1420,
+        -360
+      ],
+      "id": "7cf8701f-de1b-4da1-9946-750bc3eb1005",
+      "name": "RSS Feed Trigger"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=prendi {{ $json.content }} e fammi delle considerazioni economiche su questa operazione"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1100,
+        -360
+      ],
+      "id": "7fab1ff5-ae53-4523-99d9-63fc6fc99f8a",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "Fc4YKepdp9ogrZrV",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "49544016",
+        "text": "={{ $json.message.content }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -740,
+        -360
+      ],
+      "id": "b7dea92c-f626-425e-b6de-0dae59911c38",
+      "name": "Telegram",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:RSS Feed Trigger": {
+      "lastItemDate": "2025-01-15T13:26:46.000Z"
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-01-15T13:39:28.000Z",
+  "versionId": "ddc7f10f-7fff-413c-a338-b64d88d97b81"
+}
