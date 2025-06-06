@@ -211,6 +211,7 @@
       ],
       "typeVersion": 1,
       "alwaysOutputData": true,
+      "webhookId": "ed55ab40-9fc9-434f-8780-c7fab58f30d4",
       "credentials": {
         "githubApi": {
           "id": "bi0uUDdG7YpCsusR",
@@ -299,6 +300,7 @@
         440
       ],
       "typeVersion": 1,
+      "webhookId": "dc9ddfeb-9343-4b67-ab2e-c47444be323d",
       "credentials": {
         "githubApi": {
           "id": "bi0uUDdG7YpCsusR",
@@ -323,6 +325,7 @@
         620
       ],
       "typeVersion": 1,
+      "webhookId": "f6355a79-f635-45f0-8c51-da081ab6caee",
       "credentials": {
         "githubApi": {
           "id": "bi0uUDdG7YpCsusR",
@@ -412,7 +415,8 @@
       "parameters": {
         "content": "## Single Item Loop\nWe process each workflow item one at a time, We first check Github to see if a file exists then we merge the Github Data and the API item so we can check if the values match in the function node `isDiffOrNew` we then set a status of `same`, `different` or `new`",
         "height": 424.04333333333386,
-        "width": 755.2349999999991
+        "width": 755.2349999999991,
+        "color": 4
       },
       "id": "29078a78-b383-48da-be23-2d959fd82ada",
       "name": "Note2",
@@ -427,7 +431,8 @@
       "parameters": {
         "content": "## Save the data\nUsing the switch node we work out what to do based on the previous status,  If it is the same we do nothing, If it is different we update the file in Github and if it is new we create a new file. After this is done we loop back to the Split in Batches node (OneAtAtTime) to start the process again.",
         "height": 693.9283333333326,
-        "width": 666.4416666666662
+        "width": 666.4416666666662,
+        "color": 7
       },
       "id": "cc2c5992-4fec-4374-be41-a6f92149f3ba",
       "name": "Note3",
@@ -440,7 +445,8 @@
     },
     {
       "parameters": {
-        "filters": {}
+        "filters": {},
+        "requestOptions": {}
       },
       "id": "926f0d45-31e5-4322-a9d8-36b8f8020076",
       "name": "n8n",
@@ -489,6 +495,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-05-30T09:22:57.000Z",
-  "versionId": "bd9cd58b-9cad-463a-be27-5f217dde6f7a"
+  "updatedAt": "2025-06-06T09:49:25.000Z",
+  "versionId": "0ca6b873-b11b-410f-9323-7bafa5f0abb7"
 }
