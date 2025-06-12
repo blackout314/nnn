@@ -1,0 +1,88 @@
+{
+  "active": true,
+  "connections": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-12T13:49:54.450Z",
+  "id": "JS3fmmIEBvVJrBYt",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "MAIL support",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        -60
+      ],
+      "id": "205a9a5a-cd38-47f0-be3b-57dd136079d3",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "GgEYDFhXeWQ4y9iI",
+          "name": "IMAP support/escortfun"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "49544016",
+        "text": "=nuova mail da  {{ $json.from }} con subject {{ $json.subject }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -60
+      ],
+      "id": "a4aa2a86-fb9f-4116-a59d-8c4a654a62e4",
+      "name": "Telegram",
+      "webhookId": "4c650a31-fb35-4df4-8ec8-38b22136de97",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-06-12T13:53:49.305Z",
+      "updatedAt": "2025-06-12T13:53:49.305Z",
+      "id": "W33Yc96d7g8o3Hl5",
+      "name": "imap"
+    },
+    {
+      "createdAt": "2025-06-12T13:53:52.099Z",
+      "updatedAt": "2025-06-12T13:53:52.099Z",
+      "id": "mD5hUuFPi2J9UPiU",
+      "name": "telegram"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-06-12T13:53:59.000Z",
+  "versionId": "a691c48c-41a2-4008-a3a0-bb6f8562c4fb"
+}
