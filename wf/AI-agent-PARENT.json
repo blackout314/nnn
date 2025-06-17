@@ -38,6 +38,17 @@
           }
         ]
       ]
+    },
+    "Make an image": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-06-16T20:48:08.673Z",
@@ -70,7 +81,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
       "typeVersion": 1,
       "position": [
-        40,
+        -540,
         0
       ],
       "id": "0db7289e-82d8-45f6-835f-53c041f80bbd",
@@ -102,8 +113,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        220,
-        20
+        380,
+        40
       ],
       "id": "f352a472-5b6e-49b0-bad6-bb02b1b15ad8",
       "name": "AI-agent-translate"
@@ -115,12 +126,38 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -220,
-        -220
+        -560,
+        -280
       ],
       "id": "42e3044e-4e7b-4c4c-b2fe-630249b71b34",
       "name": "When chat message received",
       "webhookId": "34e5d68f-5a21-48ce-bacb-edc9df4e89c3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "RDVdCDsHop1VNAGV",
+          "mode": "list",
+          "cachedResultName": "AI-agent-image"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -120,
+        40
+      ],
+      "id": "3ee45188-c1ae-4961-8057-f990f23c0cd5",
+      "name": "Make an image"
     }
   ],
   "pinData": {},
@@ -143,6 +180,6 @@
     }
   ],
   "triggerCount": 0,
-  "updatedAt": "2025-06-16T21:12:46.000Z",
-  "versionId": "08301e91-0618-48f1-982d-252f96aecd56"
+  "updatedAt": "2025-06-17T14:12:25.000Z",
+  "versionId": "dd32d0da-b635-4b0c-a7b7-7994ec77d550"
 }
