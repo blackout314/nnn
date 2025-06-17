@@ -1,0 +1,105 @@
+{
+  "active": false,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-16T20:39:41.967Z",
+  "id": "a4cwwMV7Fxzlyc8I",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "AI-agent-translate",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -360,
+        -120
+      ],
+      "id": "d915454c-37e8-4bf2-a7a7-e566b0bebac1",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "traduci da inglese a italiano",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -140,
+        -120
+      ],
+      "id": "1942b7df-c32b-4e16-b8b6-657bc493a846",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        60
+      ],
+      "id": "e4a795dc-1c84-405b-8a27-0a552630b33b",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "tRBcT62HWt39rhIT",
+          "name": "DeepSeek account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-06-16T21:12:43.951Z",
+      "updatedAt": "2025-06-16T21:12:43.951Z",
+      "id": "gpQfnfNpSTgPkpDk",
+      "name": "agent"
+    },
+    {
+      "createdAt": "2025-06-16T21:12:39.832Z",
+      "updatedAt": "2025-06-16T21:12:39.832Z",
+      "id": "yNNCPJJ3p6c8ua0R",
+      "name": "ai"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-16T21:12:57.000Z",
+  "versionId": "f2b2fca1-02bf-4738-933f-ba18991f5f37"
+}
