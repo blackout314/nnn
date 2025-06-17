@@ -44,7 +44,9 @@
       "parameters": {
         "chatId": "49544016",
         "text": "=nuova mail da  {{ $json.from }} con subject {{ $json.subject }}",
-        "additionalFields": {}
+        "additionalFields": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
@@ -83,6 +85,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-12T13:53:59.000Z",
-  "versionId": "a691c48c-41a2-4008-a3a0-bb6f8562c4fb"
+  "updatedAt": "2025-06-16T21:06:33.000Z",
+  "versionId": "12ffc497-7c28-4468-b08f-ed4f915204f2"
 }
