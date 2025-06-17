@@ -1,0 +1,148 @@
+{
+  "active": false,
+  "connections": {
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI-agent-translate": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-16T20:48:08.673Z",
+  "id": "CD1kABcM0vPoVwTr",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "AI-agent-PARENT",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "# Overview\nYou are an orchestrator agent. Your only job is to delegate the task to\nthe correct tool. No need to write emails or create summaries."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        40,
+        -280
+      ],
+      "id": "850615f8-3b43-4b92-9376-900b92394244",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        40,
+        0
+      ],
+      "id": "0db7289e-82d8-45f6-835f-53c041f80bbd",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "tRBcT62HWt39rhIT",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "a4cwwMV7Fxzlyc8I",
+          "mode": "list",
+          "cachedResultName": "AI-agent-translate"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        20
+      ],
+      "id": "f352a472-5b6e-49b0-bad6-bb02b1b15ad8",
+      "name": "AI-agent-translate"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -220,
+        -220
+      ],
+      "id": "42e3044e-4e7b-4c4c-b2fe-630249b71b34",
+      "name": "When chat message received",
+      "webhookId": "34e5d68f-5a21-48ce-bacb-edc9df4e89c3"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-06-16T21:12:43.951Z",
+      "updatedAt": "2025-06-16T21:12:43.951Z",
+      "id": "gpQfnfNpSTgPkpDk",
+      "name": "agent"
+    },
+    {
+      "createdAt": "2025-06-16T21:12:39.832Z",
+      "updatedAt": "2025-06-16T21:12:39.832Z",
+      "id": "yNNCPJJ3p6c8ua0R",
+      "name": "ai"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-16T21:12:46.000Z",
+  "versionId": "08301e91-0618-48f1-982d-252f96aecd56"
+}
