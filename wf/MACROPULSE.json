@@ -1,0 +1,164 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-20T08:19:49.910Z",
+  "id": "0jrnmdONDQhmr5ug",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "MACROPULSE",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -460,
+        -120
+      ],
+      "id": "7bb08384-0222-4975-9b2d-af6beb5e8d2c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://www.macropulse.ai/api/summary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -240,
+        -120
+      ],
+      "id": "220a945f-9f66-40b0-9190-5d37a6179492",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un advisor finanziario senior, devi farmi un prospetto giornaliero secondo le notizie prese da un sito che ha gia fatto un riassunto\n\n {{ $json.bigPicture }}\n\nconsidera anche il summary\n\n{{ $json.summary }}\n\ne considera gli insight\n\n{{ $json.insights[0].text }}\n\ndevi scrivermi in html compatibile con telegram e deve essere un report anonimo e in italiano",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        -120
+      ],
+      "id": "dca6e738-fd6e-450a-8821-0f0e81611af9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        100
+      ],
+      "id": "3e83efd6-1a28-441e-8346-5b7eb4f2eb94",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "tRBcT62HWt39rhIT",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "49544016",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        340,
+        -120
+      ],
+      "id": "95792751-18d7-4a36-bc09-c13ca5a60867",
+      "name": "Telegram",
+      "webhookId": "5201da0a-14f7-49c2-a098-9f5df270fc39",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-06-20T08:31:03.031Z",
+      "updatedAt": "2025-06-20T08:31:03.031Z",
+      "id": "7qISTpJhtvgcn5xU",
+      "name": "news"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-20T08:31:05.000Z",
+  "versionId": "ecb6211a-6982-4857-9671-5db63512177f"
+}
