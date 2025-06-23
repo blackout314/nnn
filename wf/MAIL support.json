@@ -69,7 +69,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Email Trigger (IMAP)": {
+      "lastMessageUid": 2
+    }
+  },
   "tags": [
     {
       "createdAt": "2025-06-12T13:53:49.305Z",
@@ -85,6 +89,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-16T21:06:33.000Z",
+  "updatedAt": "2025-06-23T12:50:19.000Z",
   "versionId": "12ffc497-7c28-4468-b08f-ed4f915204f2"
 }
