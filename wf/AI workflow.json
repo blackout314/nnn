@@ -1,23 +1,34 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
-    "RSS Feed Trigger": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "OpenAI",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "OpenAI": {
+    "AI Agent": {
       "main": [
         [
           {
-            "node": "Telegram",
+            "node": "Respond to Webhook",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -27,79 +38,74 @@
   "createdAt": "2025-01-14T14:07:29.379Z",
   "id": "zvCYD0WfBI8i4zHD",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "AI workflow",
   "nodes": [
     {
       "parameters": {
-        "pollTimes": {
-          "item": [
-            {
-              "mode": "everyMinute"
-            }
-          ]
-        },
-        "feedUrl": "https://rss.app/feeds/pR0wFDWPXDKODjvF.xml"
-      },
-      "type": "n8n-nodes-base.rssFeedReadTrigger",
-      "typeVersion": 1,
-      "position": [
-        -1420,
-        -360
-      ],
-      "id": "7cf8701f-de1b-4da1-9946-750bc3eb1005",
-      "name": "RSS Feed Trigger"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-3.5-turbo",
-          "mode": "list",
-          "cachedResultName": "GPT-3.5-TURBO"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "=prendi {{ $json.content }} e fammi delle considerazioni economiche su questa operazione"
-            }
-          ]
-        },
+        "path": "6f7b288e-1efe-4504-a6fd-660931327269",
+        "responseMode": "lastNode",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
+      "id": "2b418fd0-35b3-4904-9466-8aa05335db75",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
       "position": [
-        -1100,
-        -360
+        -720,
+        -220
       ],
-      "id": "7fab1ff5-ae53-4523-99d9-63fc6fc99f8a",
-      "name": "OpenAI",
-      "credentials": {
-        "openAiApi": {
-          "id": "Fc4YKepdp9ogrZrV",
-          "name": "OpenAi account"
-        }
-      }
+      "webhookId": "6f7b288e-1efe-4504-a6fd-660931327269",
+      "typeVersion": 1
     },
     {
       "parameters": {
-        "chatId": "49544016",
-        "text": "={{ $json.message.content }}",
-        "additionalFields": {}
+        "respondWith": "text",
+        "responseBody": "={{$output}}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "id": "abd61cad-1688-4da7-bfd6-24fbcc8fbca9",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
       "position": [
-        -740,
-        -360
+        -120,
+        -220
       ],
-      "id": "b7dea92c-f626-425e-b6de-0dae59911c38",
-      "name": "Telegram",
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=rispondi alle domande usando queste faq https://mixero.io/faqs, la frase e' questa \"{{ $json[\"query\"][\"text\"] }}\"",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -520,
+        -220
+      ],
+      "id": "3d72cf81-87be-4721-923b-b160d1ec927c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        -20
+      ],
+      "id": "6a394419-6ce6-48ee-ba96-ff8ce1c9f668",
+      "name": "DeepSeek Chat Model",
       "credentials": {
-        "telegramApi": {
-          "id": "1",
-          "name": "Jarvis"
+        "deepSeekApi": {
+          "id": "tRBcT62HWt39rhIT",
+          "name": "DeepSeek account"
         }
       }
     }
@@ -115,6 +121,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-01-15T13:39:28.000Z",
-  "versionId": "ddc7f10f-7fff-413c-a338-b64d88d97b81"
+  "updatedAt": "2025-07-01T13:27:42.000Z",
+  "versionId": "73188dca-7c2a-4c26-b9e6-53917a1eb15b"
 }
