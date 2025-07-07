@@ -33,6 +33,17 @@
           }
         ]
       ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-01-14T14:07:29.379Z",
@@ -108,6 +119,20 @@
           "name": "DeepSeek account"
         }
       }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=$json[\"query\"][\"text\"]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -440,
+        0
+      ],
+      "id": "626824cc-dab9-4075-a930-c891cd1b1383",
+      "name": "Simple Memory"
     }
   ],
   "pinData": {},
@@ -121,6 +146,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-07-01T13:27:42.000Z",
-  "versionId": "73188dca-7c2a-4c26-b9e6-53917a1eb15b"
+  "updatedAt": "2025-07-07T10:13:31.000Z",
+  "versionId": "60ddfbbd-52a4-4414-9ab5-61916c770a72"
 }
