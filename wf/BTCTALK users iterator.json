@@ -1,17 +1,6 @@
 {
   "active": false,
   "connections": {
-    "When clicking 'Execute workflow'": {
-      "main": [
-        [
-          {
-            "node": "User List",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "User List": {
       "main": [
         [
@@ -23,22 +12,55 @@
         ]
       ]
     },
-    "Loop Over Users": {
+    "Start": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "User List",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "Loop Over Users": {
       "main": [
         [
           {
-            "node": "HTTP Request1",
+            "node": "HTTP Ninjastic Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Ninjastic Posts": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Send Analyzed Post",
             "type": "main",
             "index": 0
           }
@@ -53,57 +75,6 @@
   "name": "BTCTALK users iterator",
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        180,
-        -120
-      ],
-      "id": "52c433a5-a5c5-4d33-b5a3-17775239aa98",
-      "name": "When clicking 'Execute workflow'"
-    },
-    {
-      "parameters": {
-        "functionCode": "return [\n  { username: 'plutosky' },\n  { username: 'fillippone' },\n  // Aggiungi altri utenti qui\n];"
-      },
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        340,
-        -260
-      ],
-      "id": "ad1c5422-15a2-4c92-b294-8793ca689429",
-      "name": "User List"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 1,
-      "position": [
-        540,
-        -260
-      ],
-      "id": "579ce486-263c-4211-afe2-2bae0434912d",
-      "name": "Loop Over Users"
-    },
-    {
-      "parameters": {
-        "url": "=https://api.ninjastic.space/posts?author={{ $json.username }}&limit=10 ",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        480,
-        0
-      ],
-      "id": "58998158-3c76-41bf-93ac-78989e550457",
-      "name": "HTTP Request"
-    },
-    {
       "parameters": {
         "method": "POST",
         "url": "http://blackout.altervista.org/314blackout/n8n.php",
@@ -113,7 +84,7 @@
           "parameters": [
             {
               "name": "data",
-              "value": "={{ $json.output }}"
+              "value": "={{ $json.full_text }}"
             }
           ]
         },
@@ -122,11 +93,89 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        920,
-        -20
+        1020,
+        -100
       ],
-      "id": "ade85660-48ed-49c3-a034-a833b56a99ae",
-      "name": "HTTP Request1"
+      "id": "b6e4375e-0476-4f1e-80e1-527a63692f8d",
+      "name": "Send Analyzed Post"
+    },
+    {
+      "parameters": {
+        "functionCode": "return [\n  { username: 'plutosky' },\n  { username: 'fillippone' },\n  { username: 'bitbollo' },\n  { username: 'hhampuz' }\n  // Aggiungi altri utenti qui\n];"
+      },
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -340
+      ],
+      "id": "7f7842ac-4338-46a8-b003-720f845137b6",
+      "name": "User List"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -340
+      ],
+      "id": "0544c13f-f77b-47bf-b155-bf7da973583f",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        500,
+        -340
+      ],
+      "id": "e9686211-1704-41d5-9bcc-8a4e2bb8ccc9",
+      "name": "Loop Over Users"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.ninjastic.space/posts?author={{ $json.username }}&limit=10",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        -100
+      ],
+      "id": "dee70412-c4fc-4dbd-a5a3-fda661e5a507",
+      "name": "HTTP Ninjastic Posts"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        500,
+        -100
+      ],
+      "id": "d76e454a-7fa2-45b7-870b-2a50ed46952f",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "/** var newItems = [];\n\nfor (const item of $input.all()) {\n  newItems.push({\n    json: {\n      title: item.json.title,\n      author: item.json.author,\n      date: item.json.date,\n      tid: item.json.topic_id,\n      pid: item.json.post_id\n    }\n  });\n}\n\nreturn newItems; */\n\nconst allPosts = $input.all();\nconst today = new Date().toISOString().split('T')[0]; // Otterrà \"2025-07-30\"\n\nlet fullTextContent = '';\nfor (const post of allPosts) {\n  const postDate = post.json.date.split('T')[0];\n  \n  if (postDate === today) {\n    fullTextContent += `\n=== INIZIO POST ===\nAutore: ${post.json.author}\nData: ${post.json.date}\nTitolo: ${post.json.title}\n\nContenuto:\n${post.json.content.replace(/<[^>]*>/g, '')}\n=== FINE POST ===\\n\\n`;\n  }\n}\n\nreturn [{ json: { full_text: fullTextContent.trim() } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        780,
+        -100
+      ],
+      "id": "29b59517-f666-4d0f-b495-6853ae253dd6",
+      "name": "Code"
     }
   ],
   "pinData": {},
@@ -155,6 +204,6 @@
     }
   ],
   "triggerCount": 0,
-  "updatedAt": "2025-07-30T15:47:40.000Z",
-  "versionId": "660594e1-d42a-448c-82da-d0bb30510ec8"
+  "updatedAt": "2025-07-30T16:44:57.000Z",
+  "versionId": "1c862ca5-2d14-4efb-93cd-75471718d68e"
 }
