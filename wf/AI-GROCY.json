@@ -1,0 +1,100 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Grocy Lisy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grocy Lisy": {
+      "main": [
+        [
+          {
+            "node": "Grocy Price",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-10T18:41:16.214Z",
+  "id": "7QvczkS8IBSpTJua",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "AI-GROCY",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -540,
+        -200
+      ],
+      "id": "fae5b6e5-b2bb-4ad7-b209-f0915f7495f9",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=http://ff.bkx.pw:9283/api/stock/products/{{ $json.product.id }}/price-history",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -20,
+        -200
+      ],
+      "id": "ec9f3d06-95dd-4bef-8b7f-4ae75f7dad3e",
+      "name": "Grocy Price",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HkZBwuIoVXX5LBGQ",
+          "name": "GROCY"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://ff.bkx.pw:9283/api/stock",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -300,
+        -200
+      ],
+      "id": "50a9db73-6039-4398-8270-94854ca6588a",
+      "name": "Grocy Lisy",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HkZBwuIoVXX5LBGQ",
+          "name": "GROCY"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-10T19:09:14.000Z",
+  "versionId": "43bf8f6b-c01e-4385-8f8e-3d44ce1da7bc"
+}
