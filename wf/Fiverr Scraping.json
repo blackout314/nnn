@@ -1,0 +1,189 @@
+{
+  "active": false,
+  "connections": {
+    "Extract Data from HTML": {
+      "main": [
+        []
+      ]
+    },
+    "Daily Fiverr Scrape Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Fiverr Search Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Fiverr Search Results": {
+      "main": [
+        [
+          {
+            "node": "Extract Data from HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-18T12:23:51.047Z",
+  "id": "LhMkddvAJZhxUSfK",
+  "isArchived": false,
+  "meta": {
+    "templateId": "4583",
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Fiverr Scraping",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "639d8c5d-9b2c-4dda-a496-7098c298b5a5",
+      "name": "Daily Fiverr Scrape Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        460,
+        1280
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "url": "https://www.fiverr.com/search/gigs?query=telegram%20bot&source=top-bar^&ref_ctx_id=8dd31b5c619540f094c1e5664fcf2a8c^&search_in=everywhere^&search-autocomplete-original-term=telegram%20bot",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:141.0) Gecko/20100101 Firefox/141.0"
+            },
+            {
+              "name": "Accept",
+              "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.5"
+            },
+            {
+              "name": "Accept-Encoding",
+              "value": "gzip, deflate, br, zstd"
+            },
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Referer",
+              "value": "https://www.fiverr.com/search/gigs?query=telegram%20bot^&source=top-bar^&ref_ctx_id=c597b071f26040d7a4ccc20e81bbe427^&search_in=everywhere^&search-autocomplete-original-term=telegram%20bot"
+            },
+            {
+              "name": "Cookie",
+              "value": "_pxhd=-2FqFe5U6I1xoCct/SkxfOpU21GtRW2GLZjKTPnlEup2uRiM55Ic/fRiceQEiCpj8GJ4/C0QSMtMcyWPzXaDrw==:sbuMZwdWDCSuNgRhszn0aBKpQhPY91jI2N6qojDQuwDkWqJx2QIY3J2-NxYcxRt2H7KTh0UtNqkbZ4YnblJAURsbttfj6puWOhHRPDSVD7g=; __cfruid=b3f196cd27732d906a903f3de5d6d180bc977c9d-1698600981; _cfuvid=47rw7ohM4eh9t9FVmAbMUQtg.E.v0ha8W_nKQ80k7P8-1755520168025-0.0.1.1-604800000; u_guid=1755519920000-ab2f57e3ff8083a26d501e1143abc80e04d8f949; go_back_to_fiverr_url=%2Fsearch%2Fgigs%3Fquery%3Dtelegram%2520bot%26source%3Dtop-bar%26ref_ctx_id%3Dc597b071f26040d7a4ccc20e81bbe427%26search_in%3Deverywhere%26search-autocomplete-original-term%3Dtelegram%2520bot; logged_out_currency=CHF; forterToken=95f69b8504454054afc344b0d60b5da3_1755520210462_131_UAS9_17ck; page_views=4; visited_fiverr=true; _fiverr_session_key=5ad5e5759884071e6d8658593cec9135; QSI_HistorySession=https%3A%2F%2Fwww.fiverr.com%2Fphone_verification%2Freset_password%2Fg77QKYWsZsndUvSeP4AL~1755519951445; g_state={\"i_p\":1755527161730,\"i_l\":1}; hodor_creds=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaXZlcnIvaG9kb3JfcGVnYXN1cyIsInVpZCI6MzMxNjc0MCwic2lkIjoiODMwMGViMGM0MWQ3NTMyZWQzYmVmZDlhYzc2ZjA0MWQiLCJpYXQiOjE3NTU1MTk5ODgsImV4cCI6MTc4NzA3NzU4OH0.veVI3piixUovWS-Vbwz55oeQGa1qwMXEH18kLrL0dGU; session_locale=en-US; logged_in_currency_v2=EUR; cpra_opt_out_permanent_user=false; hp_view=buyer; access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjMzMTY3NDAsInNpZCI6IjgzMDBlYjBjNDFkNzUzMmVkM2JlZmQ5YWM3NmYwNDFkIiwicHJ2IjpudWxsLCJleHAiOjE3NTU1MjAyOTJ9.MJTmh6KS1hNbV3RPLVEWXm87y4fWOlU0hVuAHoHJMjQ"
+            },
+            {
+              "name": "Upgrade-Insecure-Requests",
+              "value": "1"
+            },
+            {
+              "name": "Sec-Fetch-Dest",
+              "value": "document"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "navigate"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-User",
+              "value": "?1"
+            },
+            {
+              "name": "Priority",
+              "value": "u=0, i"
+            },
+            {
+              "name": "TE",
+              "value": "trailers"
+            },
+            {
+              "name": "cookie",
+              "value": "_pxhd=-2FqFe5U6I1xoCct/SkxfOpU21GtRW2GLZjKTPnlEup2uRiM55Ic/fRiceQEiCpj8GJ4/C0QSMtMcyWPzXaDrw==:sbuMZwdWDCSuNgRhszn0aBKpQhPY91jI2N6qojDQuwDkWqJx2QIY3J2-NxYcxRt2H7KTh0UtNqkbZ4YnblJAURsbttfj6puWOhHRPDSVD7g=;__cfruid=b3f196cd27732d906a903f3de5d6d180bc977c9d-1698600981;_cfuvid=47rw7ohM4eh9t9FVmAbMUQtg.E.v0ha8W_nKQ80k7P8-1755520168025-0.0.1.1-604800000;u_guid=1755519920000-ab2f57e3ff8083a26d501e1143abc80e04d8f949;go_back_to_fiverr_url=%2Fsearch%2Fgigs%3Fquery%3Dtelegram%2520bot%26source%3Dtop-bar%26ref_ctx_id%3Dc597b071f26040d7a4ccc20e81bbe427%26search_in%3Deverywhere%26search-autocomplete-original-term%3Dtelegram%2520bot;logged_out_currency=CHF;forterToken=95f69b8504454054afc344b0d60b5da3_1755520210462_131_UAS9_17ck;page_views=4;visited_fiverr=true;_fiverr_session_key=5ad5e5759884071e6d8658593cec9135;QSI_HistorySession=https%3A%2F%2Fwww.fiverr.com%2Fphone_verification%2Freset_password%2Fg77QKYWsZsndUvSeP4AL~1755519951445;g_state={\"i_p\":1755527161730,\"i_l\":1};hodor_creds=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaXZlcnIvaG9kb3JfcGVnYXN1cyIsInVpZCI6MzMxNjc0MCwic2lkIjoiODMwMGViMGM0MWQ3NTMyZWQzYmVmZDlhYzc2ZjA0MWQiLCJpYXQiOjE3NTU1MTk5ODgsImV4cCI6MTc4NzA3NzU4OH0.veVI3piixUovWS-Vbwz55oeQGa1qwMXEH18kLrL0dGU;session_locale=en-US;logged_in_currency_v2=EUR;cpra_opt_out_permanent_user=false;hp_view=buyer;access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjMzMTY3NDAsInNpZCI6IjgzMDBlYjBjNDFkNzUzMmVkM2JlZmQ5YWM3NmYwNDFkIiwicHJ2IjpudWxsLCJleHAiOjE3NTU1MjAyOTJ9.MJTmh6KS1hNbV3RPLVEWXm87y4fWOlU0hVuAHoHJMjQ;"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "60977b7f-c8ec-4ec9-9d2a-e2d6c58149e6",
+      "name": "Fetch Fiverr Search Results",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        680,
+        1280
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "p.f2YMuU6",
+              "returnArray": true
+            },
+            {
+              "key": "price",
+              "cssSelector": "a._Z7OVIW span.text-bold span",
+              "returnArray": true
+            },
+            {
+              "key": "user",
+              "cssSelector": "span.vp9lqtk",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b3cc4270-c7a3-4fcc-88b3-795c6c7b418d",
+      "name": "Extract Data from HTML",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        1040,
+        1280
+      ],
+      "typeVersion": 1.2
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-08-18T12:48:53.222Z",
+      "updatedAt": "2025-08-18T12:48:53.222Z",
+      "id": "Hq0H2AxVOn5JO73D",
+      "name": "scrape"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-18T12:48:54.000Z",
+  "versionId": "6fdb7aa5-4194-4bce-a7c6-1bfbdbbc6fc1"
+}
