@@ -1,0 +1,132 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-18T10:37:36.275Z",
+  "id": "Wu6JvfAchdVFi9MM",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Graham Algo - AI",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -620,
+        -220
+      ],
+      "id": "f64ab745-827f-465a-af65-b05e4d2e4ca7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "agisci come tu fossi un browker professionista\n\ncerca su internet e prendi la lista delle aziende di SP500 e trovami le 5 migliori che rispettino l'algoritmo di Graham\n\ndammi solo la lista delle aziende con i relativi parametri, niente spiegazioni e niente commenti e niente link",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        -220
+      ],
+      "id": "94ae9f6d-4832-44b4-8aeb-80c3ab0280e1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -40
+      ],
+      "id": "7dda5f95-2513-4f8e-ba5b-3e5f00105efa",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "tRBcT62HWt39rhIT",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1001478235575",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        120,
+        -220
+      ],
+      "id": "8fb31252-25b3-4de0-9e05-45ac8da1cf45",
+      "name": "Telegram",
+      "webhookId": "980fd98b-063c-436d-b418-3f58618a0988",
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Jarvis"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-08-18T10:35:58.127Z",
+      "updatedAt": "2025-08-18T10:35:58.127Z",
+      "id": "U38UeUaY9vKRrFy0",
+      "name": "economic"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-08-18T10:43:27.000Z",
+  "versionId": "8c5f6ec5-13b5-40c3-bbb5-9e28f26093aa"
+}
