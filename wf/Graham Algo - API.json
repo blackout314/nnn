@@ -1,0 +1,223 @@
+{
+  "active": false,
+  "connections": {
+    "Weekday 9AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get S&P500 List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get S&P500 List": {
+      "main": [
+        [
+          {
+            "node": "Extract HTML Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract HTML Table": {
+      "main": [
+        [
+          {
+            "node": "Parse Table Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Table Data": {
+      "main": [
+        [
+          {
+            "node": "Limit to Top 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Fundamentals": {
+      "main": [
+        [
+          {
+            "node": "Apply Graham Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Graham Filter": {
+      "main": [
+        []
+      ]
+    },
+    "Limit to Top 5": {
+      "main": [
+        [
+          {
+            "node": "Get Fundamentals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-08-18T10:02:16.153Z",
+  "id": "2vI0oX8tPwbyskDp",
+  "isArchived": false,
+  "meta": null,
+  "name": "Graham Algo - API",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "4e5cf439-3b87-4d35-8fe4-804be5de1254",
+      "name": "Weekday 9AM Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        -2080,
+        -140
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+        "responseFormat": "string",
+        "options": {}
+      },
+      "id": "b594a606-3f20-4578-bc1c-10a3c3f4b7b9",
+      "name": "Get S&P500 List",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -1820,
+        -140
+      ]
+    },
+    {
+      "parameters": {
+        "extractionValues": {
+          "values": [
+            {
+              "key": "tableData",
+              "cssSelector": "table.wikitable",
+              "returnValue": "html"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "62d62d79-1405-4576-ab07-89681d528256",
+      "name": "Extract HTML Table",
+      "type": "n8n-nodes-base.htmlExtract",
+      "typeVersion": 1,
+      "position": [
+        -2080,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "/*const cheerio = require('cheerio');\nconst $ = cheerio.load($json.tableData);\nconst results = [];\n$('tbody tr').each((i, row) => {\n  const cols = $(row).find('td, th');\n  if (cols.length >= 2) {\n    results.push({\n      Symbol: $(cols[0]).text().trim(),\n      Company: $(cols[1]).text().trim()\n    });\n  }\n});\nreturn results.slice(1);*/\n\n// Estrae i dati della tabella usando regex invece di Cheerio\nconst html = $json.tableData;\n\n// Regex per estrarre tutte le righe della tabella\nconst rowRegex = /<tr>.*?<\\/tr>/gs;\nconst rows = html.match(rowRegex) || [];\n\nconst results = [];\n\n// Regex per estrarre i dati dalle celle\nconst cellRegex = /<(?:td|th).*?>(.*?)<\\/(?:td|th)>/gs;\n\nrows.forEach((row, index) => {\n  // Salta l'intestazione\n  if (index === 0) return;\n\n  const cells = [];\n  let match;\n  \n  // Estrae tutto il contenuto delle celle\n  while ((match = cellRegex.exec(row)) !== null) {\n    // Rimuove i tag rimanenti e gli spazi bianchi\n    const content = match[1].replace(/<.*?>/g, '').trim();\n    cells.push(content);\n  }\n\n  // Prende solo le prime 2 colonne (Simbolo e Azienda)\n  if (cells.length >= 2) {\n    results.push({\n      Symbol: cells[0],\n      Company: cells[1]\n    });\n  }\n});\n\nreturn results;"
+      },
+      "id": "04a57998-d4c9-4eac-8cef-c4e18b69a0a7",
+      "name": "Parse Table Data",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1820,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://www.alphavantage.co/query?function=OVERVIEW&symbol={{$json.Symbol}}&apikey=MIZNZ25RGSVV6U7W",
+        "options": {}
+      },
+      "id": "9a9c747e-aa03-4728-b8f7-edccb4b36337",
+      "name": "Get Fundamentals",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -1320,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const MAX_PE = 15;\nconst MAX_PB = 1.5;\nconst MAX_PE_PB_PRODUCT = 22.5;\nconst MAX_DEBT_TO_EQUITY = 1.1;\nconst MIN_YEARS_POSITIVE_EPS = 10;\n\n// Estrai i valori dal JSON\nconst pe = parseFloat($json.PERatio) || null;\nconst pb = parseFloat($json.PriceToBookRatio) || null;\nconst debt = parseFloat($json.DebtToEquity) || null;\nconst dividendYield = (parseFloat($json.DividendYield) || 0) * 100;\n\n// Poiché non abbiamo dati storici EPS, impostiamo un valore placeholder\nconst epsYears = MIN_YEARS_POSITIVE_EPS; // Modifica questo se hai dati storici\n\nif (pe && pb && debt &&\n    pe > 0 && pe <= MAX_PE &&\n    pb > 0 && pb <= MAX_PB &&\n    pe * pb <= MAX_PE_PB_PRODUCT &&\n    debt > 0 && debt <= MAX_DEBT_TO_EQUITY) {\n  return [{\n    Symbol: $json.Symbol,\n    Name: $json.Name,\n    PE: pe,\n    PB: pb,\n    DebtToEquity: debt,\n    DividendYield: dividendYield,\n    PositiveEPS_Years: epsYears,\n    Sector: $json.Sector,\n    Industry: $json.Industry,\n    MarketCap: $json.MarketCapitalization\n  }];\n} else {\n  return [];\n}"
+      },
+      "id": "a8a02e21-30fe-4c97-b2ce-d7abbb1d72c5",
+      "name": "Apply Graham Filter",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -2080,
+        360
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "={{\"📈 Top 5 Graham Stocks:\\n\\n\" + $items().map(i => `• ${i.json.Symbol} | PE: ${i.json.PE?.toFixed(2) || 'N/A'} | PB: ${i.json.PB?.toFixed(2) || 'N/A'} | DY: ${i.json.DividendYield?.toFixed(2) || '0.00'}% | Debt/Equity: ${i.json.DebtToEquity?.toFixed(2) || 'N/A'} | Positive Years: ${i.json.PositiveEPS_Years || '0'}`).join('\\n') + \"\\n\\n🕒 Generated at: \" + new Date().toLocaleString()}}",
+        "additionalFields": {}
+      },
+      "id": "87826103-3627-40c2-be83-97e7d5446a6d",
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        -680,
+        340
+      ],
+      "webhookId": "8c03b229-f5dc-4be8-b63c-2ded4c6834e8",
+      "credentials": {
+        "telegramApi": {
+          "id": null,
+          "name": "YOUR_TELEGRAM_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "maxItems": 5
+      },
+      "id": "7f578800-1f0b-45f4-858b-e9be37406d9e",
+      "name": "Limit to Top 5",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -1580,
+        100
+      ]
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-08-18T10:35:58.127Z",
+      "updatedAt": "2025-08-18T10:35:58.127Z",
+      "id": "U38UeUaY9vKRrFy0",
+      "name": "economic"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-08-18T10:35:59.000Z",
+  "versionId": "d95ad1c8-a02a-40ef-b413-1c21f04bc32c"
+}
