@@ -1,0 +1,168 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-04T12:05:35.492Z",
+  "id": "CuPQMNvNC7SU7KFs",
+  "isArchived": false,
+  "meta": null,
+  "name": "NANO-BANANA",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        -140
+      ],
+      "id": "1262b1ae-3bd7-4545-880c-0eee17749576",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ex01.bkx.pw/~a/generate-image",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "={{ $json.prompt }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -20,
+        -200
+      ],
+      "id": "ef6584c5-f5a1-4c35-b25b-2e91d96f8492",
+      "name": "HTTP Request",
+      "notesInFlow": true,
+      "notes": "https://tuosito.com/blabla"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "image_base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        40
+      ],
+      "id": "4309b3ac-7cd8-4680-a8c2-d7bd1791656b",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "content": "## 314blackout 🍌🍌\n**nano-banana gemini ai**",
+        "height": 200,
+        "width": 400,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -600,
+        -200
+      ],
+      "typeVersion": 1,
+      "id": "607678d7-c334-4d1f-af7a-b525533d8509",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "45445181-4fb1-492c-9da6-11e45d463b46",
+              "name": "prompt",
+              "value": "=",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -180,
+        -200
+      ],
+      "id": "3b8414b0-1f56-4022-8305-c0449b29d8ce",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "### esempio 1\n```\nA cute cat sitting on a chair, realistic and black cat\n```\n### esempio 2\n```\nUn doge in armatura cyberpunk, con neon viola e blu, che corre tra i grattacieli di Tokyo futuristica, stile vaporwave, dettagli ultra realistici, luce cinematografica, atmosfera da videogioco AAA\n```",
+        "height": 200,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -600,
+        20
+      ],
+      "typeVersion": 1,
+      "id": "944a26c2-1c52-49b4-9b1c-3b1f6a83c152",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-06-16T21:12:39.832Z",
+      "updatedAt": "2025-06-16T21:12:39.832Z",
+      "id": "yNNCPJJ3p6c8ua0R",
+      "name": "ai"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-04T15:00:43.000Z",
+  "versionId": "60acc0a5-3e02-4d51-a87f-f7d2ecd9ec9c"
+}
