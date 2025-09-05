@@ -1,17 +1,6 @@
 {
   "active": false,
   "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request": {
       "main": [
         [
@@ -33,6 +22,17 @@
           }
         ]
       ]
+    },
+    "Execute": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-09-04T12:05:35.492Z",
@@ -41,17 +41,6 @@
   "meta": null,
   "name": "NANO-BANANA",
   "nodes": [
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -360,
-        -140
-      ],
-      "id": "1262b1ae-3bd7-4545-880c-0eee17749576",
-      "name": "When clicking ‘Execute workflow’"
-    },
     {
       "parameters": {
         "method": "POST",
@@ -97,7 +86,7 @@
     {
       "parameters": {
         "content": "## 314blackout 🍌🍌\n**nano-banana gemini ai**",
-        "height": 200,
+        "height": 180,
         "width": 400,
         "color": 4
       },
@@ -117,7 +106,7 @@
             {
               "id": "45445181-4fb1-492c-9da6-11e45d463b46",
               "name": "prompt",
-              "value": "=",
+              "value": "=Un doge in armatura cyberpunk, con neon viola e blu, che corre tra i grattacieli di Tokyo futuristica, stile vaporwave, dettagli ultra realistici, luce cinematografica, atmosfera da videogioco AAA",
               "type": "string"
             }
           ]
@@ -142,11 +131,22 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -600,
-        20
+        0
       ],
       "typeVersion": 1,
       "id": "944a26c2-1c52-49b4-9b1c-3b1f6a83c152",
       "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        -160
+      ],
+      "id": "1262b1ae-3bd7-4545-880c-0eee17749576",
+      "name": "Execute"
     }
   ],
   "pinData": {},
@@ -163,6 +163,6 @@
     }
   ],
   "triggerCount": 0,
-  "updatedAt": "2025-09-04T15:00:43.000Z",
-  "versionId": "60acc0a5-3e02-4d51-a87f-f7d2ecd9ec9c"
+  "updatedAt": "2025-09-04T16:15:51.000Z",
+  "versionId": "55adbd7a-a388-4479-b293-59318de77205"
 }
