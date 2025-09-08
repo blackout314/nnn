@@ -106,7 +106,7 @@
             {
               "id": "45445181-4fb1-492c-9da6-11e45d463b46",
               "name": "prompt",
-              "value": "=Un doge in armatura cyberpunk, con neon viola e blu, che corre tra i grattacieli di Tokyo futuristica, stile vaporwave, dettagli ultra realistici, luce cinematografica, atmosfera da videogioco AAA",
+              "value": "=crea una immagine di un uomo in affari che passeggia in una citta con tanti grattacieli",
               "type": "string"
             }
           ]
@@ -163,6 +163,6 @@
     }
   ],
   "triggerCount": 0,
-  "updatedAt": "2025-09-04T16:15:51.000Z",
-  "versionId": "55adbd7a-a388-4479-b293-59318de77205"
+  "updatedAt": "2025-09-08T10:21:21.000Z",
+  "versionId": "60d38c7e-c01d-4ec9-9a1c-49c26c52782c"
 }
