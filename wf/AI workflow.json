@@ -139,6 +139,15 @@
   "settings": {
     "executionOrder": "v1"
   },
+  "shared": [
+    {
+      "createdAt": "2025-01-14T14:07:29.386Z",
+      "updatedAt": "2025-01-14T14:07:29.386Z",
+      "role": "workflow:owner",
+      "workflowId": "zvCYD0WfBI8i4zHD",
+      "projectId": "Oa1f6fFg9hKwy8rD"
+    }
+  ],
   "staticData": {
     "node:RSS Feed Trigger": {
       "lastItemDate": "2025-01-15T13:26:46.000Z"
