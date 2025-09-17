@@ -69,10 +69,17 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": {
-    "node:Email Trigger (IMAP)": {
-      "lastMessageUid": 31
+  "shared": [
+    {
+      "createdAt": "2025-06-12T13:49:54.456Z",
+      "updatedAt": "2025-06-12T13:49:54.456Z",
+      "role": "workflow:owner",
+      "workflowId": "JS3fmmIEBvVJrBYt",
+      "projectId": "Oa1f6fFg9hKwy8rD"
     }
+  ],
+  "staticData": {
+    "node:Email Trigger (IMAP)": {}
   },
   "tags": [
     {
